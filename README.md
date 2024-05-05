@@ -10,4 +10,11 @@ cargo leptos watch
 
 # deploy
 
+```sh
+# build image
+podman build --target runner -t blog .
+# run container
+podman run -itd -p 3000:3000 --name blog blog
+```
+
 [WIP] through git action or k8s
