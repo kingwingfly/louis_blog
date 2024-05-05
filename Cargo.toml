@@ -3,7 +3,11 @@ members = ["louis_blog/app", "louis_blog/server", "louis_blog/front"]
 resolver = "2"
 
 [workspace.dependencies]
-leptos = { version = "0.6", features = ["nightly", "experimental-islands", "ssr"] }
+leptos = { version = "0.6", features = [
+    "nightly",
+    "experimental-islands",
+    "ssr",
+] }
 leptos_router = { version = "0.6", features = ["ssr"] }
 leptos_meta = { version = "0.6", features = ["ssr"] }
 leptos_actix = { version = "0.6", features = ["experimental-islands"] }
@@ -14,7 +18,13 @@ wasm-bindgen = "0.2"
 [profile.release]
 codegen-units = 1
 lto = true
+opt-level = 3
+
+[profile.wasm-release]
+inherits = "release"
 opt-level = 'z'
+lto = true
+codegen-units = 1
 
 [[workspace.metadata.leptos]]
 name = "louis_blog"
@@ -23,3 +33,4 @@ lib-package = "front"
 assets-dir = "louis_blog/assets"
 style-file = "louis_blog/css/main.scss"
 site-root = "target/site/louis_blog"
+lib-profile-release = "wasm-release"
