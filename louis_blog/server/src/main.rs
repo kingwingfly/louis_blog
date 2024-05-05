@@ -15,6 +15,8 @@ pub async fn main() -> std::io::Result<()> {
     // Generate the list of routes in your Leptos App
     let routes = generate_route_list(app);
 
+    println!("listening on {}", addr);
+
     HttpServer::new(move || {
         let leptos_options = &conf.leptos_options;
 
