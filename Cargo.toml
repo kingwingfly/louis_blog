@@ -1,14 +1,25 @@
-[package]
-name = "louis_blog"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+members = ["louis_blog/app", "louis_blog/server", "louis_blog/front"]
+resolver = "2"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-
+[workspace.dependencies]
+leptos = { version = "0.6", features = ["nightly", "experimental-islands", "ssr"] }
+leptos_router = { version = "0.6", features = ["ssr"] }
+leptos_meta = { version = "0.6", features = ["ssr"] }
+leptos_actix = { version = "0.6", features = ["experimental-islands"] }
+actix-web = { version = "4.5", features = ["http2"] }
+tokio = { version = "1" }
+wasm-bindgen = "0.2"
 
 [profile.release]
 codegen-units = 1
 lto = true
 opt-level = 'z'
+
+[[workspace.metadata.leptos]]
+name = "louis_blog"
+bin-package = "server"
+lib-package = "front"
+assets-dir = "louis_blog/assets"
+style-file = "louis_blog/css/main.scss"
+site-root = "target/site/louis_blog"
