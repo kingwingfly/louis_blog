@@ -31,6 +31,6 @@ opt-level = 3
 
 [profile.wasm-release]
 inherits = "release"
-opt-level = 'z'
-lto = true
 codegen-units = 1
+lto = true
+opt-level = 'z'
