@@ -1,5 +1,5 @@
 # Get started with a build env with Rust nightly
-FROM rustlang/rust:nightly-alpine as builder
+FROM docker.io/rustlang/rust:nightly-alpine as builder
 
 RUN apk update && apk add --no-cache wget libc-dev
 
@@ -19,7 +19,7 @@ RUN cargo leptos build --release -vv
 
 ########################################
 
-FROM rustlang/rust:nightly-alpine as runner
+FROM docker.io/rustlang/rust:nightly-alpine as runner
 
 WORKDIR /app
 
