@@ -26,7 +26,7 @@ pub fn App() -> impl IntoView {
     view! {
         <div>
             <Stylesheet id="leptos" href="/pkg/louis_blog.css"/>
-            <Title text="Louis' blogs" />
+            <Title text="Louis' blogs"/>
             <Link rel="shortcut icon" type_="image/ico" href="/favicon.ico"/>
             <Meta name="description" content="Louis' blogs"/>
             <Router>

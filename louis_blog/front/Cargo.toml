@@ -9,8 +9,8 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-leptos = { workspace = true }
+app = { path = "../app", features = ["hydrate"] }
+leptos = { workspace = true, features = ["hydrate"] }
 wasm-bindgen = { workspace = true }
-app = { path = "../app" }
 
 [features]

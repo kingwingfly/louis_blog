@@ -6,7 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-leptos = { workspace = true }
+app = { path = "../app", features = ["ssr"] }
+leptos = { workspace = true, features = ["ssr"] }
 leptos_actix = { workspace = true }
-actix-web = { workspace = true }
-app = { path = "../app" }
+actix-web = { version = "4.5", features = ["http2"] }
+actix-files = { version = "0.6" }
