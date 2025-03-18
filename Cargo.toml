@@ -1,5 +1,12 @@
 [workspace]
-members = ["louis_blog/app", "louis_blog/backend", "louis_blog/frontend"]
+members = [
+    "http_test",
+    "louis_blog/app",
+    "louis_blog/backend",
+    "louis_blog/frontend",
+    "migration",
+    "http_test",
+]
 resolver = "2"
 
 [workspace.dependencies]
@@ -27,7 +34,3 @@ style-file = "louis_blog/style/main.scss"
 site-root = "target/site"
 lib-profile-release = "wasm-release"
 env = "DEV"
-bin-features = ["ssr"]
-bin-default-features = false
-lib-features = ["hydrate"]
-lib-default-features = false

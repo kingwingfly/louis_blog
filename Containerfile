@@ -30,6 +30,7 @@ COPY --from=builder /work/Cargo.toml /app/
 ENV RUST_LOG="info"
 ENV LEPTOS_SITE_ADDR="0.0.0.0:8080"
 ENV LEPTOS_SITE_ROOT="/app/site"
+ENV LEPTOS_ENV="PROD"
 
 EXPOSE 8080
 
