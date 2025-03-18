@@ -1,5 +1,5 @@
 [workspace]
-members = ["louis_blog/app", "louis_blog/server", "louis_blog/front"]
+members = ["louis_blog/app", "louis_blog/backend", "louis_blog/frontend"]
 resolver = "2"
 
 [workspace.dependencies]
@@ -20,11 +20,11 @@ panic = "abort"
 
 [[workspace.metadata.leptos]]
 name = "louis_blog"
-bin-package = "server"
-lib-package = "front"
+bin-package = "backend"
+lib-package = "frontend"
 assets-dir = "louis_blog/public"
 style-file = "louis_blog/style/main.scss"
-site-root = "target/site/louis_blog"
+site-root = "target/site"
 lib-profile-release = "wasm-release"
 env = "DEV"
 bin-features = ["ssr"]

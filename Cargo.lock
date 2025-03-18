@@ -168,6 +168,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "backend"
+version = "0.1.0"
+dependencies = [
+ "app",
+ "axum",
+ "leptos",
+ "leptos_axum",
+ "tokio",
+]
+
+[[package]]
 name = "backtrace"
 version = "0.3.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -428,7 +439,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "front"
+name = "frontend"
 version = "0.1.0"
 dependencies = [
  "app",
@@ -1637,17 +1648,6 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
-]
-
-[[package]]
-name = "server"
-version = "0.1.0"
-dependencies = [
- "app",
- "axum",
- "leptos",
- "leptos_axum",
- "tokio",
 ]
 
 [[package]]

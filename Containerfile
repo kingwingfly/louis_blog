@@ -23,14 +23,14 @@ FROM docker.io/rustlang/rust:nightly-alpine as runner
 
 WORKDIR /app
 
-COPY --from=builder /work/target/release/server /app/
+COPY --from=builder /work/target/release/backend /app/
 COPY --from=builder /work/target/site /app/site
 COPY --from=builder /work/Cargo.toml /app/
 
 ENV RUST_LOG="info"
-ENV LEPTOS_SITE_ADDR="0.0.0.0:3000"
-ENV LEPTOS_SITE_ROOT="site/louis_blog"
+ENV LEPTOS_SITE_ADDR="0.0.0.0:8080"
+ENV LEPTOS_SITE_ROOT="/app/site"
 
-EXPOSE 3000
+EXPOSE 8080
 
-CMD ["/app/server"]
+CMD ["/app/backend"]

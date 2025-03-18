@@ -21,23 +21,6 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
 }
 
 #[component]
-fn HomePage() -> impl IntoView {
-    view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <Counter/>
-    }
-}
-
-#[island]
-fn Counter() -> impl IntoView {
-    let (count, set_count) = signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
-    view! {
-        <button on:click=on_click>"Click Me: " {count}</button>
-    }
-}
-
-#[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
 
@@ -52,5 +35,22 @@ pub fn App() -> impl IntoView {
                 </Routes>
             </main>
         </Router>
+    }
+}
+
+#[component]
+fn HomePage() -> impl IntoView {
+    view! {
+        <h1>"Welcome to Leptos!"</h1>
+        <Counter/>
+    }
+}
+
+#[island]
+fn Counter() -> impl IntoView {
+    let (count, set_count) = signal(0);
+    let on_click = move |_| set_count.update(|count| *count += 1);
+    view! {
+        <button on:click=on_click>"Click Me: " {count}</button>
     }
 }
