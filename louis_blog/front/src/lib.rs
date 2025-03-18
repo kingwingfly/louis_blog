@@ -1,10 +1,8 @@
-#[allow(unused_imports)]
-use app::*;
-
-use leptos::*;
-use wasm_bindgen::prelude::wasm_bindgen;
-
-#[wasm_bindgen]
+#[cfg(feature = "hydrate")]
+#[wasm_bindgen::prelude::wasm_bindgen]
 pub fn hydrate() {
-    leptos_dom::HydrationCtx::stop_hydrating();
+    #[allow(unused)]
+    use app::*;
+    console_error_panic_hook::set_once();
+    leptos::mount::hydrate_islands();
 }
