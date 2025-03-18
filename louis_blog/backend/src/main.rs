@@ -48,7 +48,7 @@ async fn main() {
 
     let app = Router::new()
         .merge(auth::routes(config.clone(), db.clone()))
-        .layer(
+        .route_layer(
             ServiceBuilder::new()
                 .layer(CookieManagerLayer::new())
                 .layer(from_fn_with_state((config, db), mw_context)),

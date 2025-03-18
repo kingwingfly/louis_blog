@@ -59,5 +59,8 @@ async fn main() -> Result<()> {
     assert_eq!(resp.status(), 400);
     assert!(resp.text_body()?.contains("user not found"));
 
+    let resp = hc.do_get("/api/not_exist").await?;
+    assert_eq!(resp.status(), 404);
+
     Ok(())
 }

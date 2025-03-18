@@ -23,7 +23,7 @@ impl IntoResponse for AuthErr {
         match self {
             AuthErr::Register { reason } => (StatusCode::BAD_REQUEST, reason),
             AuthErr::Login { reason } => (StatusCode::BAD_REQUEST, reason),
-            AuthErr::Token { reason } => (StatusCode::BAD_REQUEST, reason),
+            AuthErr::Token { reason } => (StatusCode::UNAUTHORIZED, reason),
             AuthErr::Internal { reason } => (StatusCode::INTERNAL_SERVER_ERROR, reason),
         }
         .into_response()
