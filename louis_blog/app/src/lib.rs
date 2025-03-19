@@ -1,5 +1,7 @@
+mod auth;
 mod user;
 
+use auth::{Auth, Login, Register};
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::{components::*, path};
@@ -37,6 +39,10 @@ pub fn App() -> impl IntoView {
                     <ParentRoute path=path!("/users") view=Users>
                         <Route path=path!("me") view=UserProfile/>
                         <Route path=path!("") view=NoUser/>
+                    </ParentRoute>
+                    <ParentRoute path=path!("auth") view=Auth>
+                        <Route path=path!("login") view=Login/>
+                        <Route path=path!("register") view=Register/>
                     </ParentRoute>
                     <Route path=path!("") view=HomePage/>
                 </Routes>

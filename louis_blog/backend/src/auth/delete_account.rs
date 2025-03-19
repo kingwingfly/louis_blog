@@ -7,7 +7,7 @@ use axum::{extract::State, Extension};
 use tower_cookies::{Cookie, Cookies};
 use tracing::instrument;
 
-#[instrument(skip_all, fields(username=context.as_ref().map(|c| c.name.to_owned())))]
+#[instrument(skip_all, fields(id), ret(level = "debug"), err(level = "warn"))]
 #[cfg_attr(debug_assertions, axum::debug_handler)]
 pub async fn delete_account(
     Extension(context): Extension<Option<Context>>,
@@ -16,6 +16,7 @@ pub async fn delete_account(
 ) -> Result<()> {
     match context {
         Some(context) => {
+            tracing::Span::current().record("id", context.id);
             db.delete_by_id(context.id)
                 .await
                 .map_err(|_| AuthErr::Token {

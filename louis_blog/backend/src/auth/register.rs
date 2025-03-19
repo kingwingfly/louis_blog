@@ -1,7 +1,6 @@
 use super::error::{AuthErr, Result};
 use crate::{config::Config, db::Db};
-use axum::extract::State;
-use axum::Json;
+use axum::{body::Bytes, extract::State};
 use hmac::{Hmac, Mac as _};
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
@@ -18,12 +17,27 @@ pub struct RegisterPayload {
     pub email: String,
 }
 
-#[instrument(skip_all, fields(username=register_payload.username, email=register_payload.email), err(level = "warn"))]
+#[instrument(
+    skip_all,
+    fields(username, email),
+    ret(level = "debug"),
+    err(level = "warn")
+)]
 #[cfg_attr(debug_assertions, axum::debug_handler)]
-pub async fn register(
-    State((config, db)): State<(Config, Db)>,
-    Json(register_payload): Json<RegisterPayload>,
-) -> Result<()> {
+pub async fn register(State((config, db)): State<(Config, Db)>, body: Bytes) -> Result<()> {
+    let register_payload: RegisterPayload = if let Ok(payload) = serde_urlencoded::from_bytes(&body)
+    {
+        payload
+    } else if let Ok(payload) = serde_json::from_slice(&body) {
+        payload
+    } else {
+        return Err(AuthErr::Register {
+            reason: "invalid payload".to_string(),
+        });
+    };
+    tracing::Span::current()
+        .record("username", &register_payload.username)
+        .record("email", &register_payload.email);
     register_payload.validate().map_err(|e| AuthErr::Register {
         reason: e.to_string(),
     })?;

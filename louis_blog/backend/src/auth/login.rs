@@ -3,8 +3,8 @@ use super::token::generate_token;
 use super::AUTH_TOKEN;
 use crate::db::entity::user;
 use crate::{config::Config, db::Db};
+use axum::body::Bytes;
 use axum::extract::State;
-use axum::Json;
 use hmac::{Hmac, Mac};
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
@@ -20,13 +20,23 @@ pub struct LoginPayload {
     pub password: String,
 }
 
-#[instrument(skip_all, fields(email=login_payload.email), err(level = "warn"))]
+#[instrument(skip_all, fields(email), ret(level = "debug"), err(level = "warn"))]
 #[cfg_attr(debug_assertions, axum::debug_handler)]
 pub async fn login(
     State((config, db)): State<(Config, Db)>,
     cookies: Cookies,
-    Json(login_payload): Json<LoginPayload>,
+    body: Bytes,
 ) -> Result<()> {
+    let login_payload: LoginPayload = if let Ok(payload) = serde_urlencoded::from_bytes(&body) {
+        payload
+    } else if let Ok(payload) = serde_json::from_slice(&body) {
+        payload
+    } else {
+        return Err(AuthErr::Login {
+            reason: "invalid payload".to_string(),
+        });
+    };
+    tracing::Span::current().record("email", &login_payload.email);
     login_payload.validate().map_err(|e| AuthErr::Register {
         reason: e.to_string(),
     })?;

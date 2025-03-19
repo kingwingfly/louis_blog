@@ -10,6 +10,6 @@ mod token;
 mod whoami;
 
 pub use routes::routes;
-pub use token::mw_context;
+pub use token::validate_token;
 
-const AUTH_TOKEN: &str = "auth_token";
+pub const AUTH_TOKEN: &str = "auth_token";
