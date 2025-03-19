@@ -4,7 +4,7 @@ use axum::{
 };
 use snafu::Snafu;
 
-#[derive(Debug, Snafu)]
+#[derive(Debug, Snafu, Clone)]
 pub enum AuthErr {
     #[snafu(display("Failed to register: {reason}"))]
     Register { reason: String },

@@ -27,9 +27,12 @@ pub async fn mw_context(
 ) -> Result<Response> {
     match validate_token(&cookies, &config.token_key, &db).await {
         Ok(context) => {
-            req.extensions_mut().insert(context);
+            req.extensions_mut().insert(Some(context));
         }
-        Err(_) => cookies.remove(Cookie::from(AUTH_TOKEN)),
+        Err(_) => {
+            req.extensions_mut().insert(None::<Context>);
+            cookies.remove(Cookie::from(AUTH_TOKEN))
+        }
     }
 
     Ok(next.run(req).await)

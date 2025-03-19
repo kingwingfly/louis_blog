@@ -4,6 +4,11 @@ use serde_json::json;
 #[tokio::main]
 async fn main() -> Result<()> {
     let hc = httpc_test::new_client("http://127.0.0.1:3000")?;
+
+    let resp = hc.do_get("/api/whoami").await?;
+    resp.print().await?;
+    assert_eq!(resp.status(), 401);
+
     let resp = hc
         .do_post(
             "/api/register",
@@ -61,6 +66,14 @@ async fn main() -> Result<()> {
 
     let resp = hc.do_get("/api/not_exist").await?;
     assert_eq!(resp.status(), 404);
+
+    let resp = hc.do_get("/api/logout").await?;
+    resp.print().await?;
+    assert_eq!(resp.status(), 200);
+
+    let resp = hc.do_get("/api/whoami").await?;
+    resp.print().await?;
+    assert_eq!(resp.status(), 401);
 
     Ok(())
 }
