@@ -63,4 +63,9 @@ impl Db {
     pub async fn get_by_id(&self, id: i32) -> Result<Option<user::Model>> {
         Ok(user::Entity::find_by_id(id).one(&self.inner).await?)
     }
+
+    pub async fn delete_by_id(&self, id: i32) -> Result<()> {
+        user::Entity::delete_by_id(id).exec(&self.inner).await?;
+        Ok(())
+    }
 }

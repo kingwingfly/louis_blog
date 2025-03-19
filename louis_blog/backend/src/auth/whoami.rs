@@ -9,7 +9,7 @@ pub async fn whoami(Extension(context): Extension<Option<Context>>) -> Result<Js
     match context {
         Some(ctx) => Ok(Json(ctx)),
         None => Err(AuthErr::Token {
-            reason: "token unreachable".to_string(),
+            reason: "no token provided".to_string(),
         }),
     }
 }

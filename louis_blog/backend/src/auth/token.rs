@@ -105,7 +105,7 @@ pub async fn validate_token(
     let token = cookies
         .get(AUTH_TOKEN)
         .ok_or(AuthErr::Token {
-            reason: "no auth token".to_string(),
+            reason: "no token provided".to_string(),
         })?
         .value()
         .to_string();
