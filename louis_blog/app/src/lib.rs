@@ -1,6 +1,9 @@
+mod user;
+
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::{components::*, path};
+use user::{NoUser, UserProfile, Users};
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -31,6 +34,10 @@ pub fn App() -> impl IntoView {
         <Router>
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
+                    <ParentRoute path=path!("/users") view=Users>
+                        <Route path=path!("me") view=UserProfile/>
+                        <Route path=path!("") view=NoUser/>
+                    </ParentRoute>
                     <Route path=path!("") view=HomePage/>
                 </Routes>
             </main>
