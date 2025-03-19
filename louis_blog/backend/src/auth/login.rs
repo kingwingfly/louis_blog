@@ -5,6 +5,7 @@ use crate::db::entity::user;
 use crate::{config::Config, db::Db};
 use axum::body::Bytes;
 use axum::extract::State;
+use axum::response::{IntoResponse as _, Redirect, Response};
 use hmac::{Hmac, Mac};
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
@@ -26,7 +27,7 @@ pub async fn login(
     State((config, db)): State<(Config, Db)>,
     cookies: Cookies,
     body: Bytes,
-) -> Result<()> {
+) -> Result<Response> {
     let login_payload: LoginPayload = if let Ok(payload) = serde_urlencoded::from_bytes(&body) {
         payload
     } else if let Ok(payload) = serde_json::from_slice(&body) {
@@ -68,5 +69,5 @@ pub async fn login(
     }
     let token = generate_token(&config.token_key, token_salt, config.token_duration_sec, id);
     cookies.add(Cookie::new(AUTH_TOKEN, token));
-    Ok(())
+    Ok(Redirect::to("/users/me").into_response())
 }

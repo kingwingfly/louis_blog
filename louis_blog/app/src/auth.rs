@@ -13,6 +13,13 @@ pub fn Auth() -> impl IntoView {
 pub fn Login() -> impl IntoView {
     view! {
         <h2>"Login"</h2>
+        <Form method="POST" action="/api/login">
+            <label for="email">"Email"</label>
+            <input type="email" name="email"/>
+            <label for="password">"Password"</label>
+            <input type="password" name="password"/>
+            <input type="submit" value="Login"/>
+        </Form>
     }
 }
 

@@ -1,6 +1,10 @@
 use super::error::{AuthErr, Result};
 use crate::{config::Config, db::Db};
-use axum::{body::Bytes, extract::State};
+use axum::{
+    body::Bytes,
+    extract::State,
+    response::{IntoResponse as _, Redirect, Response},
+};
 use hmac::{Hmac, Mac as _};
 use serde::{Deserialize, Serialize};
 use sha2::Sha256;
@@ -24,7 +28,7 @@ pub struct RegisterPayload {
     err(level = "warn")
 )]
 #[cfg_attr(debug_assertions, axum::debug_handler)]
-pub async fn register(State((config, db)): State<(Config, Db)>, body: Bytes) -> Result<()> {
+pub async fn register(State((config, db)): State<(Config, Db)>, body: Bytes) -> Result<Response> {
     let register_payload: RegisterPayload = if let Ok(payload) = serde_urlencoded::from_bytes(&body)
     {
         payload
@@ -58,5 +62,5 @@ pub async fn register(State((config, db)): State<(Config, Db)>, body: Bytes) -> 
         .map_err(|_| AuthErr::Register {
             reason: "duplicated username or email".to_string(),
         })?;
-    Ok(())
+    Ok(Redirect::to("/auth/login").into_response())
 }
