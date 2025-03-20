@@ -1,7 +1,9 @@
 mod auth;
+mod home;
 mod user;
 
 use auth::{Auth, Login, Register};
+use home::HomePage;
 use leptos::prelude::*;
 use leptos_meta::*;
 use leptos_router::{components::*, path};
@@ -37,33 +39,16 @@ pub fn App() -> impl IntoView {
             <main>
                 <Routes fallback=|| "Page not found.".into_view()>
                     <ParentRoute path=path!("/users") view=Users>
-                        <Route path=path!("me") view=UserProfile/>
-                        <Route path=path!("") view=NoUser/>
+                        <Route path=path!("/me") view=UserProfile/>
+                        <Route path=path!("/") view=NoUser/>
                     </ParentRoute>
-                    <ParentRoute path=path!("auth") view=Auth>
-                        <Route path=path!("login") view=Login/>
-                        <Route path=path!("register") view=Register/>
+                    <ParentRoute path=path!("/auth") view=Auth>
+                        <Route path=path!("/login") view=Login/>
+                        <Route path=path!("/register") view=Register/>
                     </ParentRoute>
-                    <Route path=path!("") view=HomePage/>
+                    <Route path=path!("/") view=HomePage/>
                 </Routes>
             </main>
         </Router>
-    }
-}
-
-#[component]
-fn HomePage() -> impl IntoView {
-    view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <Counter/>
-    }
-}
-
-#[island]
-fn Counter() -> impl IntoView {
-    let (count, set_count) = signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
-    view! {
-        <button on:click=on_click>"Click Me: " {count}</button>
     }
 }

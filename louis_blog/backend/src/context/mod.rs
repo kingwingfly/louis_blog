@@ -29,7 +29,7 @@ pub async fn mw_context(
         }
         Err(_) => {
             req.extensions_mut().insert(None::<Context>);
-            cookies.remove(Cookie::from(AUTH_TOKEN))
+            cookies.remove(Cookie::from(AUTH_TOKEN));
         }
     }
     next.run(req).await

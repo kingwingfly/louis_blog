@@ -86,7 +86,7 @@ pub async fn auth() -> Result<()> {
     resp.print().await?;
     assert_eq!(resp.status(), 200);
 
-    let resp = hc.do_get("/api/delete_account").await?;
+    let resp = hc.do_delete("/api/delete_account").await?;
     resp.print().await?;
     assert_eq!(resp.status(), 200);
 

@@ -1,5 +1,6 @@
+use crate::auth::{DeleteAccount, Login, Logout};
 use gloo_net::http::Request;
-use leptos::prelude::*;
+use leptos::{either::Either, prelude::*};
 use leptos_router::components::Outlet;
 use serde::{Deserialize, Serialize};
 
@@ -17,8 +18,17 @@ struct WhoAmI {
     name: String,
 }
 
-#[island]
+#[component]
 pub fn UserProfile() -> impl IntoView {
+    view! {
+        <div>
+            <Me/>
+        </div>
+    }
+}
+
+#[island]
+pub fn Me() -> impl IntoView {
     let whoami = LocalResource::new(move || async {
         let resp = Request::get("/api/whoami")
             .send()
@@ -30,11 +40,19 @@ pub fn UserProfile() -> impl IntoView {
             Err(_) => Err(body.to_string()),
         }
     });
+
     view! {
         <Transition fallback=move || view! { <p>"Loading..."</p> } >
             {move || match whoami.get().as_deref() {
-                Some(Ok(whoami)) => Some(view! { <p>{format!("Hello, {}!", whoami.name)}</p> }),
-                Some(Err(e)) => Some(view! { <p>{e.to_string()}</p> }),
+                Some(Ok(whoami)) => Some(Either::Left(view! {
+                    <p>{format!("Hello, {}!", whoami.name)}</p>
+                    <Logout/>
+                    <DeleteAccount/>
+                })),
+                Some(Err(e)) => Some(Either::Right(view! {
+                    <p>{e.to_string()}</p>
+                    <Login/>
+                })),
                 None => None,
             }}
         </Transition>

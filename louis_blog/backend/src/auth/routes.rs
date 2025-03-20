@@ -10,7 +10,7 @@ pub fn routes<S: Send + Sync + Clone + 'static>(config: Config, db: Db) -> Route
         .route("/api/register", post(register))
         .route("/api/login", post(login))
         .with_state((config, db.clone()))
-        .route("/api/delete_account", get(delete_account))
+        .route("/api/delete_account", post(delete_account))
         .with_state(db)
         .route("/api/logout", get(logout))
         .route("/api/whoami", get(whoami))

@@ -3,7 +3,11 @@ use super::{
     AUTH_TOKEN,
 };
 use crate::{context::Context, db::Db};
-use axum::{extract::State, Extension};
+use axum::{
+    extract::State,
+    response::{IntoResponse as _, Redirect, Response},
+    Extension,
+};
 use tower_cookies::{Cookie, Cookies};
 use tracing::instrument;
 
@@ -13,7 +17,7 @@ pub async fn delete_account(
     Extension(context): Extension<Option<Context>>,
     State(db): State<Db>,
     cookies: Cookies,
-) -> Result<()> {
+) -> Result<Response> {
     match context {
         Some(context) => {
             tracing::Span::current().record("id", context.id);
@@ -23,7 +27,7 @@ pub async fn delete_account(
                     reason: "failed to delete account".to_string(),
                 })?;
             cookies.remove(Cookie::from(AUTH_TOKEN));
-            Ok(())
+            Ok(Redirect::to("/").into_response())
         }
         None => Err(AuthErr::Token {
             reason: "no token provided".to_string(),
