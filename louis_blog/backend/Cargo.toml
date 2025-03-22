@@ -1,7 +1,8 @@
 [package]
 name = "backend"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
+publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -12,7 +13,7 @@ migration = { path = "../../migration" }
 # runtime
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 # leptos
-leptos = { workspace = true, features = ["ssr"] }
+leptos = { version = "0.7", features = ["nightly", "islands", "ssr"] }
 leptos_axum = { version = "0.7", features = [] }
 # server
 axum = { version = "0.7", features = ["macros"] }

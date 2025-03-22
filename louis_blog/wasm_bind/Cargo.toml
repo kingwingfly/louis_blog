@@ -1,0 +1,11 @@
+[package]
+name = "wasm_bind"
+edition = "2024"
+version = "0.1.0"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = { version = "0.2.100" }

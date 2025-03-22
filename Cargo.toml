@@ -4,13 +4,13 @@ members = [
     "louis_blog/app",
     "louis_blog/backend",
     "louis_blog/frontend",
+    "louis_blog/wasm_bind",
     "migration",
     "http_test",
 ]
 resolver = "2"
 
 [workspace.dependencies]
-leptos = { version = "0.7", features = ["nightly", "islands"] }
 
 [profile.release]
 codegen-units = 1
